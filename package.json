@@ -1,0 +1,32 @@
+{
+  "name": "bing-wallpaper-manual",
+  "version": "0.0.0",
+  "description": "A TypeScript project.",
+  "homepage": "https://github.com/Zamiell/bing-wallpaper-manual",
+  "bugs": {
+    "url": "https://github.com/Zamiell/bing-wallpaper-manual/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zamiell/bing-wallpaper-manual.git"
+  },
+  "license": "GPL-3.0",
+  "author": "Zamiell",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "bun run ./scripts/build.ts",
+    "lint": "bun run ./scripts/lint.ts",
+    "publish": "complete-cli publish",
+    "start": "bun run ./src/main.ts",
+    "update": "complete-cli update"
+  },
+  "devDependencies": {
+    "complete-cli": "1.5.2",
+    "complete-lint": "4.2.7",
+    "complete-node": "12.2.1",
+    "typescript": "5.9.3"
+  }
+}
