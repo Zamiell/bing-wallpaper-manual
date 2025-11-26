@@ -6,7 +6,6 @@ runs:
       uses: actions/setup-node@v5
       with:
         node-version: lts/*
-        cache: bun
 
     - name: Install dependencies
       run: bun install --frozen-lockfile

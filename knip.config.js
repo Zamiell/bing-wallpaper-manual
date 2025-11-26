@@ -9,11 +9,9 @@ const config = {
     "eslint.config.mjs", // ESLint is provided by "complete-lint".
     "prettier.config.mjs", // Prettier is provided by "complete-lint".
   ],
-  ignoreBinaries: [
-    "tsx", // This is provided by "complete-lint".
-  ],
   ignoreDependencies: [
     "complete-lint", // This is a linting meta-package.
+    "pino-pretty", // This is used in "logger.ts".
   ],
 };
 
