@@ -65,6 +65,7 @@ async function setWallpaperFromBingAPI() {
   logger.info(`Successfully downloaded: ${filePath}`);
 
   await setWallpaper(filePath);
+  logger.info(`Set wallpaper to: ${filePath}`);
 }
 
 async function getImageOfTheDayMetadataFromBingAPI(): Promise<BingImage> {
@@ -113,14 +114,22 @@ async function downloadImage(imageURL: string, filePath: string) {
 async function setWallpaper(filePath: string) {
   switch (process.platform) {
     case "win32": {
-      // TODO
-      const key = String.raw`HKEY_CURRENT_USER\Control Panel\Desktop`;
-      await $`reg add ${key} /v Wallpaper /t REG_SZ /d ${filePath} /f`;
-      const fillWallpaperStyle = 10;
-      await $`reg add ${key} /v WallpaperStyle /t REG_SZ /d ${fillWallpaperStyle} /f`;
+      const powerShellScript = `
+$code = @'
+using System.Runtime.InteropServices;
+public class Wallpaper {
+  [DllImport("user32.dll", CharSet=CharSet.Auto)]
+  public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+}
+'@
+Add-Type -TypeDefinition $code
+[Wallpaper]::SystemParametersInfo(20, 0, "${filePath}", 3)
+`.trimStart();
 
-      // Apply the change.
-      await $`RUNDLL32.EXE user32.dll,UpdatePerUserSystemParameters`;
+      const encodedCommand = Buffer.from(powerShellScript, "utf16le").toString(
+        "base64",
+      );
+      await $`powershell -EncodedCommand ${encodedCommand}`;
 
       break;
     }

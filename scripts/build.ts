@@ -1,5 +1,5 @@
-import { $, buildScript } from "complete-node";
+import { buildScript, compileToSingleFileWithBun } from "complete-node";
 
-await buildScript(import.meta.dirname, async () => {
-  await $`tsc`;
+await buildScript(import.meta.dirname, async (packageRoot) => {
+  await compileToSingleFileWithBun(packageRoot, "bun-windows-x64");
 });
