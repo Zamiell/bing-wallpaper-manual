@@ -26,5 +26,5 @@ await lintCommands(import.meta.dirname, [
 
   // Check for template updates.
   // @template-ignore-next-line
-  "complete-cli check --ignore knip.config.js,tsconfig.json",
+  "complete-cli check --ignore action.yml,knip.config.js,tsconfig.json",
 ]);
