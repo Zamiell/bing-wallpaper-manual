@@ -11,7 +11,6 @@ const config = {
   ],
   ignoreDependencies: [
     "complete-lint", // This is a linting meta-package.
-    "pino-pretty", // This is used in "logger.ts".
   ],
 };
 
