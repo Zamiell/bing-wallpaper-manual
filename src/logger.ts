@@ -1,6 +1,6 @@
 import { makeDirectory } from "complete-node";
 import path from "node:path";
-import { pino } from "pino";
+import winston from "winston";
 import { name } from "../package.json";
 import { PROJECT_ROOT } from "./constants.js";
 
@@ -9,39 +9,29 @@ const LOG_PATH = path.join(LOGS_PATH, `${name}.log`);
 
 await makeDirectory(LOGS_PATH);
 
-const options = {
-  ignore: "hostname,pid",
-  translateTime: "HH:MM:ss TT",
-};
+const timeFormat = "MM/DD/YYYY hh:mm:ss A";
 
-const customTimestamp = () => {
-  const time = new Date().toLocaleString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: true,
-    timeZone: "America/New_York",
-  });
+const prettyPrint = winston.format.printf(
+  ({ level, message, timestamp, stack }) =>
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    stack
+      ? // eslint-disable-next-line @typescript-eslint/no-base-to-string
+        `[${timestamp}] ${level}: ${stack}`
+      : `[${timestamp}] ${level}: ${message}`,
+);
 
-  return `,"time":"${time}"`;
-};
-
-export const logger = pino({
-  timestamp: customTimestamp,
-  transport: {
-    targets: [
-      {
-        target: "pino-pretty",
-        options,
-      },
-      {
-        target: "pino-pretty",
-        options: {
-          ...options,
-          destination: LOG_PATH,
-          colorize: false,
-        },
-      },
-    ],
-  },
+export const logger = winston.createLogger({
+  format: winston.format.combine(
+    winston.format.timestamp({ format: timeFormat }),
+    winston.format.errors({ stack: true }),
+  ),
+  transports: [
+    new winston.transports.Console({
+      format: winston.format.combine(winston.format.colorize(), prettyPrint),
+    }),
+    new winston.transports.File({
+      filename: LOG_PATH,
+      format: prettyPrint,
+    }),
+  ],
 });
