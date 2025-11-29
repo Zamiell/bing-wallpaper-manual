@@ -12,7 +12,9 @@ Currently, this script only supports Windows. In the future, it may also support
 
 ## Installation
 
-- `gh repo clone Zamiell/bing-wallpaper-manual`
+First, install [Bun](https://bun.com/), if you do not already have it installed.
+
+- `git clone git@github.com:Zamiell/bing-wallpaper-manual.git`
 - `cd bing-wallpaper-manual`
 - `bun ci`
 - `bun run build`
