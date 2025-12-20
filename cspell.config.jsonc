@@ -21,13 +21,5 @@
     "pnpm-lock.yaml",
     "yarn.lock",
   ],
-  "words": [
-    "dbaeumer",
-    "Digue",
-    "Dont",
-    "esbenp",
-    "Irohazaka",
-    "sarisia",
-    "Zamiell",
-  ],
+  "words": ["dbaeumer", "Digue", "Dont", "Irohazaka", "sarisia", "Zamiell"],
 }
