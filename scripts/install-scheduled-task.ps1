@@ -6,10 +6,13 @@ $ProjectPath = Split-Path -Parent $PSScriptRoot
 $ProjectName = Split-Path $ProjectPath -Leaf
 
 $TaskName = $ProjectName
+# We use "cmd.exe" instead of invoking the executable directly to avoid having a black terminal
+# window show on the screen. The first argument is the window title.
 $Action = New-ScheduledTaskAction `
-    -Execute "$ProjectPath\dist\$ProjectName.exe" `
+    -Execute "cmd.exe" `
+    -Argument "/C start /min `"$ProjectName`" `"$ProjectPath\dist\$ProjectName.exe`"" `
     -WorkingDirectory $ProjectPath
-$Time = "3:05AM"
+$Time = "3:05AM" # 5 minutes after the upstream rotation.
 $Trigger = New-ScheduledTaskTrigger -Daily -At $Time
 $Settings = New-ScheduledTaskSettingsSet `
     -AllowStartIfOnBatteries `
@@ -17,12 +20,13 @@ $Settings = New-ScheduledTaskSettingsSet `
     -StartWhenAvailable `
     -WakeToRun
 
-# "-Force" overwrites it if it already exists.
+# "-Force" overwrites the task if it already exists.
 Register-ScheduledTask `
     -TaskName $TaskName `
     -Action $Action `
     -Trigger $Trigger `
     -Settings $Settings `
-    -Force
+    -Force `
+    -ErrorAction "Stop"
 
 Write-Host "Successfully installed scheduled task `"$TaskName`". It will run daily at: $Time"
