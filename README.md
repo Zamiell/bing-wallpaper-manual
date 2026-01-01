@@ -8,7 +8,7 @@ This program is intended to only be run once a day. We recommend that you use a 
 
 ## Supported Operating Systems
 
-Currently, this script only supports Windows. In the future, it may also support Linux.
+Currently, this script supports Windows and macOS. In the future, it may also support Linux.
 
 ## Installation
 
@@ -18,4 +18,11 @@ First, install [Bun](https://bun.com/), if you do not already have it installed.
 - `cd bing-wallpaper-manual`
 - `bun ci`
 - `bun run build`
+
+On Windows:
+
 - `powershell ./scripts/install-scheduled-task.ps1`
+
+On macOS:
+
+- `./scripts/install-launchd-task.sh`

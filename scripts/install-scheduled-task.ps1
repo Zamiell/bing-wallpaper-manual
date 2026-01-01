@@ -1,3 +1,5 @@
+# This script installs a scheduled task on Windows.
+
 # Exit on errors and undefined.
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
@@ -36,4 +38,5 @@ Register-ScheduledTask `
     -Force `
     -ErrorAction "Stop"
 
-Write-Host "Successfully installed scheduled task `"$TaskName`". It will run daily at: $Time"
+Write-Host "Successfully installed scheduled task: $TaskName"
+Write-Host "It will run daily at: $Time"
