@@ -6,6 +6,13 @@ $ProjectPath = Split-Path -Parent $PSScriptRoot
 $ProjectName = Split-Path $ProjectPath -Leaf
 
 $TaskName = $ProjectName
+
+$ExistingTask = Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue
+if ($ExistingTask) {
+    Write-Host "Scheduled task `"$TaskName`" already exists. Exiting."
+    return
+}
+
 # We use "cmd.exe" instead of invoking the executable directly to avoid having a black terminal
 # window show on the screen. The first argument is the window title.
 $Action = New-ScheduledTaskAction `
