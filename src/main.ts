@@ -134,6 +134,12 @@ Add-Type -TypeDefinition $code
       break;
     }
 
+    case "darwin": {
+      const appleScript = `tell application "System Events" to tell every desktop to set picture to "${filePath}"`;
+      await $`osascript -e ${appleScript}`;
+      break;
+    }
+
     default: {
       throw new Error(`Unsupported platform: ${process.platform}`);
     }
